@@ -28,7 +28,6 @@ module.exports = (app, express) => {
 
         //connect to your database & return json response
         sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error);
-
       });
 
 
@@ -48,7 +47,6 @@ module.exports = (app, express) => {
 
           if(projectID) {
             query += ' where projectID = ' + projectID;
-            console.log(query);
           }
 
           //connect to your database & return json response

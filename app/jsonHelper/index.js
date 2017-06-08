@@ -4,18 +4,10 @@
 
 module.exports = (res) => {
 
-return {
-  callback: (result) => res.json(
-    {
-      success: true,
-      result: result
-    }),
+  return {
 
-  error: (error) => res.json({
-      success: false,
-      message: error
-    })
-}
-
+    callback: (result) => res.json({success: true, result: result}),
+    error: (error) => res.json({success: false, message: error})
+  }
 
 }
