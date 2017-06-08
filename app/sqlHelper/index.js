@@ -14,6 +14,7 @@ module.exports = {
 
       if (err) {
         error(err);
+        console.log(err);
         sql.close();
         return;
       }
@@ -26,14 +27,14 @@ module.exports = {
 
         if (err) {
           error(err);
+          console.log(err);
+
         } else {
-            callback(result.recordset);
-          }
+          callback(result.recordset);
+        }
 
         sql.close();
-
       });
     })
-
   }
 }
