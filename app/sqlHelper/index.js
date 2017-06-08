@@ -12,7 +12,11 @@ module.exports = {
 
     sql.connect(config, (err) => {
 
-      if (err) console.log(err);
+      if (err) {
+        error(err);
+        sql.close();
+        return;
+      }
 
       // create Request object
       let request = new sql.Request();
@@ -21,11 +25,15 @@ module.exports = {
       request.query(query, (err, result) => {
 
         if (err) {
-          console.log(err);
-        }
+          error(err);
+        } else {
+            callback(result.recordset);
+          }
 
-        callback(result.recordset);
         sql.close();
+
       });
-    })}
+    })
+
+  }
 }
