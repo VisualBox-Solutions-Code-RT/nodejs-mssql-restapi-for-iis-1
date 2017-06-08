@@ -9,48 +9,89 @@ const sql = require("mssql");
 
 module.exports = function(app, express) {
 
-	// get an instance of the express router
-	var apiRouter = express.Router();
+    // get an instance of the express router
+    const apiRouter = express.Router();
 
-	// test route to make sure everything is working
-	// accessed at GET http://localhost:8080/api
-	apiRouter.get('/', function(req, res){
-		res.json({message:'welcome to our api!'});
-	});
+    // test route to make sure everything is working
+    // accessed at GET your_url/api
+    apiRouter.get('/', function(req, res) {
+        res.json({message: 'welcome to our api!'});
+    });
 
-	//routing for /api/releases request
-	apiRouter.route('/releases')
+		// FOR PROJECTS
+    // routing for your_url/api/projects request
+    apiRouter.route('/projects')
 
-		//get all requests
-		// url/requests
-		.get((req, res) => {
+    // GET all requests your_url/api/requests
+        .get((req, res) => {
+        // connect to your database
+        sql.connect(config, function(err) {
 
-			// connect to your database
-    sql.connect(config, function (err) {
+						if (err) console.log(err);
 
-        if (err) console.log(err);
+            // create Request object
+            let request = new sql.Request();
 
-        // create Request object
-        var request = new sql.Request();
+						let query = 'select * from brm.dbo.projects';
 
-        // query to the database and get the records
-        request.query('select * from brm.dbo.releases', function (err, recordset) {
+            // query to the database and get the records
+            request.query(query, function(err, recordset) {
 
-            if (err) {
-							console.log(err);
-							sql.close();
-						}
+              if (err) {
+                  console.log(err);
+                  sql.close();
+              }
 
-            // send records as a response
-            res.json(recordset);
-						sql.close();
+              // send records as a response
+              res.json(recordset);
+              sql.close();
 
+            });
         });
     });
 
+		// FOR RELEASES
+    // routing for your_url/api/releases request
+    apiRouter.route('/releases')
 
-	});
+    // GET all requests your_url/api/requests
+        .get((req, res) => {
+        // connect to your database
+        sql.connect(config, function(err) {
 
-	return apiRouter;
+						if (err) console.log(err);
+
+            // create Request object
+            let request = new sql.Request();
+
+						// if url has a query parameter
+						// e.g. api/releases?projectID=2
+						// append to the mssql query
+						const projectID = req.query.projectID;
+
+						let query = 'select * from brm.dbo.releases';
+
+						if(projectID) {
+							query += ' where projectID = ' + projectID;
+							console.log(query);
+						}
+
+            // query to the database and get the records
+            request.query(query, function(err, recordset) {
+
+              if (err) {
+                  console.log(err);
+                  sql.close();
+              }
+
+              // send records as a response
+              res.json(recordset);
+              sql.close();
+
+            });
+        });
+    });
+
+    return apiRouter;
 
 }
