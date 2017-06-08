@@ -2,19 +2,18 @@
 //===========================
 
 //CALL THE PACKAGES ------------
-const release = require('../../app/models/release');
 //referencing our config.js
-const config = require('../../config');
-const sql = require("mssql");
+const sqlHelper = require('../sqlHelper');
+const jsonHelper = require('../jsonHelper');
 
-module.exports = function(app, express) {
+module.exports = (app, express) => {
 
     // get an instance of the express router
     const apiRouter = express.Router();
 
     // test route to make sure everything is working
     // accessed at GET your_url/api
-    apiRouter.get('/', function(req, res) {
+    apiRouter.get('/', (req, res) => {
         res.json({message: 'welcome to our api!'});
     });
 
@@ -22,33 +21,16 @@ module.exports = function(app, express) {
     // routing for your_url/api/projects request
     apiRouter.route('/projects')
 
-    // GET all requests your_url/api/requests
-        .get((req, res) => {
-        // connect to your database
-        sql.connect(config, function(err) {
+      // GET all requests your_url/api/requests
+      .get((req, res) => {
 
-						if (err) console.log(err);
+        let query = 'select * from brm.dbo.projects';
 
-            // create Request object
-            let request = new sql.Request();
+        //connect to your database & return json response
+        sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error);
 
-						let query = 'select * from brm.dbo.projects';
+      });
 
-            // query to the database and get the records
-            request.query(query, function(err, result) {
-
-              if (err) {
-                  console.log(err);
-                  sql.close();
-              }
-
-              // send records as a response
-              res.json(result.recordset);
-              sql.close();
-
-            });
-        });
-    });
 
 		// FOR RELEASES
     // routing for your_url/api/releases request
@@ -56,42 +38,35 @@ module.exports = function(app, express) {
 
     // GET all requests your_url/api/requests
         .get((req, res) => {
-        // connect to your database
-        sql.connect(config, function(err) {
 
-						if (err) console.log(err);
+          let query = 'select * from brm.dbo.releases';
 
-            // create Request object
-            let request = new sql.Request();
+          // if url has a query parameter
+          // e.g. api/releases?projectID=2
+          // append to the mssql query
+          const projectID = req.query.projectID;
 
-						// if url has a query parameter
-						// e.g. api/releases?projectID=2
-						// append to the mssql query
-						const projectID = req.query.projectID;
+          if(projectID) {
+            query += ' where projectID = ' + projectID;
+            console.log(query);
+          }
 
-						let query = 'select * from brm.dbo.releases';
-
-						if(projectID) {
-							query += ' where projectID = ' + projectID;
-							console.log(query);
-						}
-
-            // query to the database and get the records
-            request.query(query, function(err, result) {
-
-              if (err) {
-                  console.log(err);
-                  sql.close();
-              }
-
-              // send records as a response
-              res.json(result.recordset);
-              sql.close();
-
-            });
+          //connect to your database & return json response
+          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
         });
-    });
+
+    // FOR RELEASES
+    // routing for your_url/api/releases request
+    apiRouter.route('/releases/:release_id')
+
+    // GET all requests your_url/api/requests
+        .get((req, res) => {
+
+          let query = 'select * from brm.dbo.releases where ID = ' + req.params.release_id;
+
+          //connect to your database & return json response
+          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+        });
 
     return apiRouter;
-
 }
