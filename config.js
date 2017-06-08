@@ -1,9 +1,8 @@
 module.exports = {
 
-	'port': process.env.PORT || 8081,
-	'server': '127.0.0.1',
-	'user': 'SA',
-	'password': 'P@55w0rd'
-
+	user: 'sa',
+	password: 'P@55w0rd',
+	server: 'localhost',
+	database: 'BRM'
 
 };
