@@ -35,7 +35,7 @@ module.exports = function(app, express) {
 						let query = 'select * from brm.dbo.projects';
 
             // query to the database and get the records
-            request.query(query, function(err, recordset) {
+            request.query(query, function(err, result) {
 
               if (err) {
                   console.log(err);
@@ -43,7 +43,7 @@ module.exports = function(app, express) {
               }
 
               // send records as a response
-              res.json(recordset);
+              res.json(result.recordset);
               sql.close();
 
             });
@@ -77,7 +77,7 @@ module.exports = function(app, express) {
 						}
 
             // query to the database and get the records
-            request.query(query, function(err, recordset) {
+            request.query(query, function(err, result) {
 
               if (err) {
                   console.log(err);
@@ -85,7 +85,7 @@ module.exports = function(app, express) {
               }
 
               // send records as a response
-              res.json(recordset);
+              res.json(result.recordset);
               sql.close();
 
             });
