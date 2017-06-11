@@ -6,8 +6,8 @@ module.exports = (res) => {
 
   return {
 
-    callback: (result) => res.json({success: true, result: result}),
-    error: (error) => res.json({success: false, message: 'Technical error - please contact developer or try again later.'})
+    callback: (result) => res.json({requestSuccess: true, result: result}),
+    error: (error) => res.json({requestSuccess: false, message: 'Technical error - please contact developer or try again later.'})
   }
 
 }

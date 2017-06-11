@@ -31,7 +31,7 @@ module.exports = (app, express) => {
       // GET all requests your_url/api/requests
       .get((req, res) => {
 
-        let query = 'select * from brm.dbo.projects';
+        let query = 'SELECT * FROM brm.dbo.Projects';
 
         //connect to your database & return json response
         sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error);
@@ -45,7 +45,7 @@ module.exports = (app, express) => {
     // GET all requests your_url/api/requests
         .get((req, res) => {
 
-          let query = 'select * from brm.dbo.releases';
+          let query = 'SELECT * FROM brm.dbo.Releases';
 
           // if url has a query parameter
           // e.g. api/releases?projectID=2
@@ -53,7 +53,7 @@ module.exports = (app, express) => {
           const projectID = req.query.projectID;
 
           if(projectID) {
-            query += ' where projectID = ' + projectID;
+            query += ' WHERE projectID = ' + projectID;
           }
 
           //connect to your database & return json response
@@ -100,7 +100,7 @@ module.exports = (app, express) => {
             )
           }
           else {
-            let query = 'select * from brm.dbo.releases where ID = ' + releaseId;
+            let query = 'SELECT * FROM brm.dbo.Releases WHERE ID = ' + releaseId;
 
             //connect to your database & return json response
             sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
@@ -113,7 +113,7 @@ module.exports = (app, express) => {
     apiRouter.route('/milestones/:release_id')
         .get((req, res) => {
 
-          let query = 'select * from brm.dbo.milestones where ReleaseID = ' + req.params.release_id;
+          let query = 'SELECT Title, Status, PlannedFinish, Notes FROM brm.dbo.Milestones WHERE ReleaseID = ' + req.params.release_id;
 
           //connect to your database & return json response
           sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
@@ -124,7 +124,7 @@ module.exports = (app, express) => {
         apiRouter.route('/components/:release_id')
             .get((req, res) => {
 
-              let query = 'select * from brm.dbo.components where ReleaseID = ' + req.params.release_id;
+              let query = 'SELECT Title, Active FROM brm.dbo.Components WHERE ReleaseID = ' + req.params.release_id;
 
               //connect to your database & return json response
               sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
