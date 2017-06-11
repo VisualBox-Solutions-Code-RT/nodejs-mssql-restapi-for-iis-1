@@ -34,7 +34,7 @@ module.exports = (app, express) => {
         let query = 'SELECT * FROM brm.dbo.Projects';
 
         //connect to your database & return json response
-        sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error);
+        sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error, 'read');
       });
 
 
@@ -57,7 +57,7 @@ module.exports = (app, express) => {
           }
 
           //connect to your database & return json response
-          sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error);
+          sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error, 'read');
         });
 
     // FOR RELEASES
@@ -103,7 +103,7 @@ module.exports = (app, express) => {
             let query = `SELECT * FROM brm.dbo.Releases WHERE ID = ${ releaseId }`;
 
             //connect to your database & return json response
-            sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+            sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error, 'read');
           }
 
         })
@@ -124,10 +124,8 @@ module.exports = (app, express) => {
               Status = '${ status }'
               WHERE ID = ${ releaseId }`;
 
-
-console.log(query);
           //connect to your database & return json response
-          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error, 'update');
 
         });
 
@@ -139,7 +137,7 @@ console.log(query);
           let query = `SELECT ID, Title, Status, PlannedFinish, Notes FROM brm.dbo.Milestones WHERE ReleaseID = ${ req.params.release_id }`;
 
           //connect to your database & return json response
-          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error, 'read');
         });
 
         // FOR COMPONENTS
@@ -150,7 +148,7 @@ console.log(query);
               let query = `SELECT ID, Title, Active FROM brm.dbo.Components WHERE ReleaseID = ${ req.params.release_id}`;
 
               //connect to your database & return json response
-              sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+              sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error, 'read');
             });
 
 

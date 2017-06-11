@@ -8,7 +8,7 @@ const sql = require("mssql");
 
 module.exports = {
 
-  queryDB: (query, callback, error) => {
+  queryDB: (query, callback, error, operation) => {
 
     //to avoid Global connection if there is any
     sql.close();
@@ -33,9 +33,14 @@ module.exports = {
           console.log(err);
 
         } else {
-          callback(result.recordset);
-        }
+            if(operation === 'read'){
+              callback(result.recordset);
+            }
 
+            else if(operation === 'update'){
+              callback({rowsAffected: result.rowsAffected});
+            }
+        }
         sql.close();
       });
     })
