@@ -35,10 +35,10 @@ module.exports = {
         } else {
 
           if (operation === 'read') {
-            callback(result.recordset);
+            callback(operation, result.recordset);
             return;
           } else if (operation === 'update' || operation === 'post') {
-            callback({rowsAffected: result.rowsAffected});
+            callback(operation, {rowsAffected: result.rowsAffected});
             return;
           }
         }
