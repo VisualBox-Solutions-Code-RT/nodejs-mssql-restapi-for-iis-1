@@ -132,7 +132,11 @@ module.exports = (app, express) => {
     apiRouter.route('/milestones/')
       .get((req, res) => {
 
-
+        // checker for invalid api requests
+        if("undefined" === typeof req.query.releaseID){
+          jsonHelper(res).error(new Error('releaseID is not defined in the query ?releaseID = ...'), 'Invalid API Request');
+          return;
+        }
 
         let query = `SELECT ID, Title, Status, PlannedFinish, Notes FROM brm.dbo.Milestones WHERE ReleaseID = ${ req.query.releaseID }`;
 
@@ -170,7 +174,6 @@ module.exports = (app, express) => {
 
         //connect to your database & return json response
         sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error, 'update');
-
 
       });
 

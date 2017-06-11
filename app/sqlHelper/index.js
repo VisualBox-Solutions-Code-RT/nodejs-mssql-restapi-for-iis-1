@@ -34,15 +34,13 @@ module.exports = {
 
         } else {
 
-            if(operation === 'read'){
-              callback(result.recordset);
-              return;
-            }
-
-            else if(operation === 'update' || operation === 'post'){
-              callback({rowsAffected: result.rowsAffected});
-              return;
-            }
+          if (operation === 'read') {
+            callback(result.recordset);
+            return;
+          } else if (operation === 'update' || operation === 'post') {
+            callback({rowsAffected: result.rowsAffected});
+            return;
+          }
         }
         sql.close();
       });
