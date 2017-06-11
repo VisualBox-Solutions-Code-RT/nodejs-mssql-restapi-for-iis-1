@@ -113,7 +113,7 @@ module.exports = (app, express) => {
     apiRouter.route('/milestones/:release_id')
         .get((req, res) => {
 
-          let query = 'SELECT Title, Status, PlannedFinish, Notes FROM brm.dbo.Milestones WHERE ReleaseID = ' + req.params.release_id;
+          let query = 'SELECT ID, Title, Status, PlannedFinish, Notes FROM brm.dbo.Milestones WHERE ReleaseID = ' + req.params.release_id;
 
           //connect to your database & return json response
           sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
@@ -124,7 +124,7 @@ module.exports = (app, express) => {
         apiRouter.route('/components/:release_id')
             .get((req, res) => {
 
-              let query = 'SELECT Title, Active FROM brm.dbo.Components WHERE ReleaseID = ' + req.params.release_id;
+              let query = 'SELECT ID, Title, Active FROM brm.dbo.Components WHERE ReleaseID = ' + req.params.release_id;
 
               //connect to your database & return json response
               sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
