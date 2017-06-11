@@ -17,16 +17,17 @@ module.exports = (res) => {
       res.send({requestSuccess: true, result: result})
 
     },
+
     error: (error, message = 'Technical error. Please contact the developer or try again.') => {
 
-      console.log(error);
-
-      // if error status is not defined, will give the default of 500 - internal server error.
-      if (!res.status) {
-        res.status(500);
+      //checker for predefined error status codes
+      if(res.statusCode != 400) {
+         res.status(500);
       }
 
       res.send({requestSuccess: false, message: message});
+
+      return;
     }
   }
 

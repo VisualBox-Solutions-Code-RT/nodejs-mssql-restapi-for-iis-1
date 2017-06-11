@@ -31,12 +31,14 @@ module.exports = {
         if (err) {
           error(err);
           console.log(err);
+          return;
 
         } else {
 
           if (operation === 'read') {
             callback(operation, result.recordset);
             return;
+            
           } else if (operation === 'update' || operation === 'post') {
             callback(operation, {rowsAffected: result.rowsAffected});
             return;

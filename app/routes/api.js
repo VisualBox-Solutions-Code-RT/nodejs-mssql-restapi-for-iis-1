@@ -134,8 +134,9 @@ module.exports = (app, express) => {
 
         // checker for invalid api requests
         if("undefined" === typeof req.query.releaseID){
-          res.status(400);
-          jsonHelper(res).error(new Error('releaseID is not defined in the query ?releaseID = ...'), 'Invalid API Request');
+
+          //set status code to 400 - bad request & send json response
+          jsonHelper(res.status(400)).error(new Error('releaseID is not defined in the query ?releaseID = ...'), 'Invalid API Request');
           return;
         }
 
