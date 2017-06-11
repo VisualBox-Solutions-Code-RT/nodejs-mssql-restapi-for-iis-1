@@ -3,7 +3,7 @@
 //===========================
 
 //CALL THE PACKAGES ------------
-const config = require('../../config');
+const config = require('../../config').DBConfig;
 const sql = require("mssql");
 
 module.exports = {

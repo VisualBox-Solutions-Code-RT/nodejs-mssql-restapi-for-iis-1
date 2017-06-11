@@ -5,11 +5,18 @@
 //referencing our config.js
 const sqlHelper = require('../sqlHelper');
 const jsonHelper = require('../jsonHelper');
+const async =require('async');
+const request = require('request');
+const AppConfig = require('../../config').AppConfig;
 
 module.exports = (app, express) => {
 
+
     // get an instance of the express router
     const apiRouter = express.Router();
+
+    //http://localhost:8081
+    const AppUrl = AppConfig.url + ':' + AppConfig.port;
 
     // test route to make sure everything is working
     // accessed at GET your_url/api
@@ -58,10 +65,47 @@ module.exports = (app, express) => {
     apiRouter.route('/releases/:release_id')
         .get((req, res) => {
 
-          let query = 'select * from brm.dbo.releases where ID = ' + req.params.release_id;
+          let releaseId = req.params.release_id;
 
-          //connect to your database & return json response
-          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+          // if url has a query parameter
+          // e.g. api/releases/1?complete=true
+          // append to the mssql query
+          // This is to aggregate all Release values in one JSON response
+          const isQueryForComplete = req.query.complete;
+
+          if(isQueryForComplete === 'true') {
+
+            async.series([
+              function(callback){request.get(AppUrl + '/api/releases/' + releaseId,callback)},
+              function(callback){request.get(AppUrl + '/api/components/' + releaseId,callback)},
+              function(callback){request.get(AppUrl +  '/api//milestones/' + releaseId,callback)},
+              ],
+
+              //callback
+              function(err, results){
+                if(err) {
+                  jsonHelper(res).error();
+                  return;
+                }
+
+                let aggregatedData = {
+                  releaseInfo: JSON.parse(results[0][1]),
+                  components: JSON.parse(results[1][1]),
+                  milestones: JSON.parse(results[2][1])
+                }
+
+                //return json as response
+                jsonHelper(res).callback(aggregatedData);
+              }
+            )
+          }
+          else {
+            let query = 'select * from brm.dbo.releases where ID = ' + releaseId;
+
+            //connect to your database & return json response
+            sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+          }
+
         });
 
     // FOR MILESTONES
