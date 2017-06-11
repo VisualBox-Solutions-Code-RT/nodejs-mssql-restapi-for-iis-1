@@ -10,6 +10,9 @@ module.exports = {
 
   queryDB: (query, callback, error) => {
 
+    //to avoid Global connection if there is any
+    sql.close();
+
     sql.connect(config, (err) => {
 
       if (err) {

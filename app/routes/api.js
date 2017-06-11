@@ -56,8 +56,6 @@ module.exports = (app, express) => {
     // FOR RELEASES
     // routing for your_url/api/releases request
     apiRouter.route('/releases/:release_id')
-
-    // GET all requests your_url/api/requests
         .get((req, res) => {
 
           let query = 'select * from brm.dbo.releases where ID = ' + req.params.release_id;
@@ -65,6 +63,29 @@ module.exports = (app, express) => {
           //connect to your database & return json response
           sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
         });
+
+    // FOR MILESTONES
+    // routing for your_url/api/milestones/release_id
+    apiRouter.route('/milestones/:release_id')
+        .get((req, res) => {
+
+          let query = 'select * from brm.dbo.milestones where ReleaseID = ' + req.params.release_id;
+
+          //connect to your database & return json response
+          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+        });
+
+        // FOR COMPONENTS
+        // routing for your_url/api/components/release_id
+        apiRouter.route('/components/:release_id')
+            .get((req, res) => {
+
+              let query = 'select * from brm.dbo.components where ReleaseID = ' + req.params.release_id;
+
+              //connect to your database & return json response
+              sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+            });
+
 
     return apiRouter;
 }
