@@ -16,7 +16,7 @@ module.exports = (app, express) => {
     const apiRouter = express.Router();
 
     //http://localhost:8081
-    const AppUrl = AppConfig.url + ':' + AppConfig.port;
+    const AppUrl = `${ AppConfig.url }:${ AppConfig.port }`;
 
     // test route to make sure everything is working
     // accessed at GET your_url/api
@@ -53,11 +53,11 @@ module.exports = (app, express) => {
           const projectID = req.query.projectID;
 
           if(projectID) {
-            query += ' WHERE projectID = ' + projectID;
+            query += ` WHERE projectID = ${ projectID }`;
           }
 
           //connect to your database & return json response
-          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
+          sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error);
         });
 
     // FOR RELEASES
@@ -76,9 +76,9 @@ module.exports = (app, express) => {
           if(isQueryForComplete === 'true') {
 
             async.series([
-              function(callback){request.get(AppUrl + '/api/releases/' + releaseId,callback)},
-              function(callback){request.get(AppUrl + '/api/components/' + releaseId,callback)},
-              function(callback){request.get(AppUrl +  '/api//milestones/' + releaseId,callback)},
+              function(callback){request.get(`${ AppUrl }/api/releases/${ releaseId }`, callback)},
+              function(callback){request.get(`${ AppUrl }/api/components/${ releaseId }`, callback)},
+              function(callback){request.get(`${ AppUrl }/api/milestones/${ releaseId }` ,callback)},
               ],
 
               //callback
@@ -100,11 +100,34 @@ module.exports = (app, express) => {
             )
           }
           else {
-            let query = 'SELECT * FROM brm.dbo.Releases WHERE ID = ' + releaseId;
+            let query = `SELECT * FROM brm.dbo.Releases WHERE ID = ${ releaseId }`;
 
             //connect to your database & return json response
             sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
           }
+
+        })
+
+        // PUT ENDPOINT
+        // FOR UPDATING RELEASE INFO
+        .put((req, res) => {
+
+          let releaseId = req.params.release_id;
+
+          const {title, RFCNumber, owner, goLiveDate, status} = req.body;
+
+          let query = `UPDATE Releases SET
+              Title =  '${ title }',
+              RFCNumber = '${ RFCNumber }',
+              Owner = '${ owner }',
+              GoLiveDate = '${ goLiveDate }',
+              Status = '${ status }'
+              WHERE ID = ${ releaseId }`;
+
+
+console.log(query);
+          //connect to your database & return json response
+          sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
 
         });
 
@@ -113,7 +136,7 @@ module.exports = (app, express) => {
     apiRouter.route('/milestones/:release_id')
         .get((req, res) => {
 
-          let query = 'SELECT ID, Title, Status, PlannedFinish, Notes FROM brm.dbo.Milestones WHERE ReleaseID = ' + req.params.release_id;
+          let query = `SELECT ID, Title, Status, PlannedFinish, Notes FROM brm.dbo.Milestones WHERE ReleaseID = ${ req.params.release_id }`;
 
           //connect to your database & return json response
           sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
@@ -124,7 +147,7 @@ module.exports = (app, express) => {
         apiRouter.route('/components/:release_id')
             .get((req, res) => {
 
-              let query = 'SELECT ID, Title, Active FROM brm.dbo.Components WHERE ReleaseID = ' + req.params.release_id;
+              let query = `SELECT ID, Title, Active FROM brm.dbo.Components WHERE ReleaseID = ${ req.params.release_id}`;
 
               //connect to your database & return json response
               sqlHelper.queryDB(query,jsonHelper(res).callback, jsonHelper(res).error);
