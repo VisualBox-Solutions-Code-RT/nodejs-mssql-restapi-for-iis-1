@@ -6,12 +6,16 @@ module.exports = (res) => {
 
   return {
 
-    callback: (result) => res.json({requestSuccess: true, result: result}),
+    callback: (result) => res.status(200).send({requestSuccess: true, result: result}),
     error: (error, message = 'Technical error. Please contact the developer or try again.') => {
 
       console.log(error);
-      res.json({requestSuccess: false, message: message});
 
+      if (!res.status) {
+        res.status(500);
+      }
+
+      res.send({requestSuccess: false, message: message});
     }
   }
 
