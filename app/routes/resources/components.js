@@ -38,9 +38,8 @@ module.exports = (apiRouter) => {
 
       const {title, status, active} = req.body;
 
-      let query = `UPDATE Milestones SET
+      let query = `UPDATE Components SET
             Title =  '${title}',
-            Status = '${status}',
             Active = '${active}'
             WHERE ID = ${req.params.component_id}`;
 
