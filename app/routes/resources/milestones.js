@@ -1,5 +1,5 @@
-const sqlHelper = require('../../sqlHelper');
-const jsonHelper = require('../../jsonHelper');
+const sqlHelper = require(__base + '/app/sqlHelper');
+const jsonHelper = require(__base + 'app/jsonHelper');
 
 module.exports = (apiRouter) => {
 

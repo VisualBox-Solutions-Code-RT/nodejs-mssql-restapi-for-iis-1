@@ -1,9 +1,10 @@
 const async = require('async');
 const request = require('request');
-const sqlHelper = require('../../sqlHelper');
-const jsonHelper = require('../../jsonHelper');
+const sqlHelper = require(__base + '/app/sqlHelper');
+const jsonHelper = require(__base + 'app/jsonHelper');
+const AppConfig = require(__base + '/config').AppConfig;
 
-module.exports = (apiRouter, AppConfig) => {
+module.exports = (apiRouter) => {
 
   //http://localhost:8081
   const AppUrl = `${AppConfig.url}:${AppConfig.port}`;

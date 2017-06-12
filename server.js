@@ -1,6 +1,6 @@
 //BASE SETUP
 //===========================
-
+global.__base = __dirname + '/';
 //CALL THE PACKAGES ------------
 const express = require('express'); //call express
 const app = express(); //define our app using express
