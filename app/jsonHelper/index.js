@@ -1,7 +1,6 @@
 //Helper module for returning generic json response for both success & error
 //BASE SETUP
 //===========================
-
 module.exports = (res) => {
 
   return {

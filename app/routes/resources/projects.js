@@ -1,0 +1,18 @@
+const sqlHelper = require('../../sqlHelper');
+const jsonHelper = require('../../jsonHelper');
+
+module.exports = (apiRouter) => {
+
+  // FOR PROJECTS
+  // routing for your_url/api/projects request
+  apiRouter.route('/projects')
+
+  // GET all requests your_url/api/requests
+    .get((req, res) => {
+
+    let query = 'SELECT * FROM brm.dbo.Projects';
+
+    //connect to your database & return json response
+    sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error, 'read');
+  });
+}

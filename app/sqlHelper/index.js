@@ -38,7 +38,7 @@ module.exports = {
           if (operation === 'read') {
             callback(operation, result.recordset);
             return;
-            
+
           } else if (operation === 'update' || operation === 'post') {
             callback(operation, {rowsAffected: result.rowsAffected});
             return;
