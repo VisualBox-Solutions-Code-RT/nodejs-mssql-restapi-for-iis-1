@@ -5,8 +5,6 @@ module.exports = (app, express) => {
     // get an instance of the express router
     const apiRouter = express.Router();
 
-
-
     // test route to make sure everything is working
     // accessed at GET your_url/api
     apiRouter.get('/', (req, res) => {

@@ -52,7 +52,7 @@ module.exports = (apiRouter) => {
           request.get(`${AppUrl}/api/releases/${releaseId}`, callback)
         },
         (callback) => {
-          request.get(`${AppUrl}/api/components/${releaseId}`, callback)
+          request.get(`${AppUrl}/api/components?releaseID=${releaseId}`, callback)
         },
         (callback) => {
           request.get(`${AppUrl}/api/milestones?releaseID=${releaseId}`, callback)

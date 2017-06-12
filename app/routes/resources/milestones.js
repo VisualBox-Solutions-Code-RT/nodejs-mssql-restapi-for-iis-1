@@ -54,8 +54,7 @@ module.exports = (apiRouter) => {
             Title =  '${title}',
             PlannedFinish = '${plannedFinish}',
             Status = '${status}',
-            Notes = '${notes}',
-            ReleaseID = ' ${releaseID} '
+            Notes = '${notes}'
             WHERE ID = ${req.params.milestone_id}`;
 
       //connect to your database & return json response

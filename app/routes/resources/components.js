@@ -21,7 +21,7 @@ module.exports = (apiRouter) => {
       //connect to your database & return json response
       sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error, 'read');
 
-    })
+    });
 
   // routing for your_url/api/components/component_id
   apiRouter.route('/components/:component_id')
@@ -31,6 +31,21 @@ module.exports = (apiRouter) => {
       let query = `SELECT Title, Active, ReleaseID FROM brm.dbo.Components WHERE ID = ${req.params.component_id}`;
       //connect to your database & return json response
       sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error, 'read');
+
+    })
+
+    .put((req, res) => {
+
+      const {title, status, active} = req.body;
+
+      let query = `UPDATE Milestones SET
+            Title =  '${title}',
+            Status = '${status}',
+            Active = '${active}'
+            WHERE ID = ${req.params.component_id}`;
+
+      //connect to your database & return json response
+      sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error, 'update');
 
     });
 
