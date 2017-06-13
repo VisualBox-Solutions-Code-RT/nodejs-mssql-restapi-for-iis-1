@@ -1,3 +1,5 @@
+'use strict';
+
 const sqlHelper = require(__base + '/app/sqlHelper');
 const jsonHelper = require(__base + 'app/jsonHelper');
 

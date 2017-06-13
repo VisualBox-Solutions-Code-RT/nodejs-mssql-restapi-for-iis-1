@@ -1,0 +1,13 @@
+{
+  "AppConfig": {
+    "url": "http://localhost",
+    "port": "8081"
+	},
+
+	"DBConfig": {
+    "user": "sa",
+    "password": "P@55w0rd",
+    "server": "localhost",
+    "database": "BRM"
+	}
+}

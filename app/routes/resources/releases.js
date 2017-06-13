@@ -2,7 +2,7 @@ const async = require('async');
 const request = require('request');
 const sqlHelper = require(__base + '/app/sqlHelper');
 const jsonHelper = require(__base + 'app/jsonHelper');
-const AppConfig = require(__base + '/config').AppConfig;
+const AppConfig = require(__base + 'app/config').AppConfig;
 
 module.exports = (apiRouter) => {
 

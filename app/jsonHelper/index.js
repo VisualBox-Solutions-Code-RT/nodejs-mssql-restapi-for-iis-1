@@ -1,3 +1,5 @@
+'use strict';
+
 //Helper module for returning generic json response for both success & error
 //BASE SETUP
 //===========================

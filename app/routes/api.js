@@ -1,3 +1,5 @@
+'use strict';
+
 //BASE SETUP
 //===========================
 module.exports = (app, express) => {

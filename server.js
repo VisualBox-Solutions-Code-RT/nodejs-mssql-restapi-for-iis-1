@@ -1,3 +1,5 @@
+'use strict';
+
 //BASE SETUP
 //===========================
 global.__base = __dirname + '/';
@@ -6,7 +8,7 @@ const express = require('express'); //call express
 const app = express(); //define our app using express
 const bodyParser = require('body-parser'); //get body-parser will let us pull POST content from our HTTP request
 const morgan = require('morgan'); //used to log requests on the console
-const AppConfig = require('./config').AppConfig;
+const AppConfig = require('./app/config').AppConfig;
 
 //APP CONFIGURATION ---------------
 //use body-parser so we can grab information from POST REQUESTS
