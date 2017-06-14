@@ -5,8 +5,8 @@ if(process.env.NODE_ENV === 'production'){
 	module.exports = {
 
     AppConfig: {
-      url: process.env.appUrl,
-      port: process.env.appPort
+      url: process.env.HOST,
+      port: process.env.PORT
     },
 
     DBConfig: {
