@@ -39,4 +39,5 @@ app.use('/api', apiRoutes);
 // START THE SERVER
 // ===============================
 app.listen(AppConfig.port);
+console.log('App starts in ' + process.env.NODE_ENV + ' mode');
 console.log('Magic happens on port ' + AppConfig.port);
