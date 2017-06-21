@@ -8,6 +8,7 @@ module.exports = (apiRouter) => {
   // FOR COMPONENTS
   //routing for your_url/api/components?releaseID=release_id
   apiRouter.route('/components')
+
     .get((req, res) => {
 
       // checker for invalid api requests
@@ -24,7 +25,7 @@ module.exports = (apiRouter) => {
       sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error, 'read');
 
     });
-
+  
   // routing for your_url/api/components/component_id
   apiRouter.route('/components/:component_id')
 

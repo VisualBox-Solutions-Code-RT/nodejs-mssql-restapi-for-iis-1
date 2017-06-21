@@ -13,10 +13,18 @@ module.exports = (app, express) => {
         res.json({message: 'welcome to our api!'});
     });
 
-  require('./resources/projects')(apiRouter);
-  require('./resources/releases')(apiRouter);
-  require('./resources/milestones')(apiRouter);
-  require('./resources/components')(apiRouter);
+  const resourceModules = [
+    './resources/projects',
+    './resources/releases',
+    './resources/milestones',
+    './resources/components',
+    './resources/requests'
+  ];
+
+  //load api resources
+  resourceModules.forEach((resource) => {
+    require(resource)(apiRouter);
+  });
 
   return apiRouter;
 }
