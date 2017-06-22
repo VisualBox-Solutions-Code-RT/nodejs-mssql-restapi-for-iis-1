@@ -25,7 +25,7 @@ module.exports = (apiRouter) => {
       sqlHelper.queryDB(query, jsonHelper(res).callback, jsonHelper(res).error, 'read');
 
     });
-  
+
   // routing for your_url/api/components/component_id
   apiRouter.route('/components/:component_id')
 

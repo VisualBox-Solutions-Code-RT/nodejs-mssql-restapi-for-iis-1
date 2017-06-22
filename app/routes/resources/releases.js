@@ -18,8 +18,6 @@ module.exports = (apiRouter) => {
 
     let query = 'SELECT * FROM brm.dbo.Releases';
 
-    console.log(query);
-
     // if url has a query parameter
     // e.g. api/releases?projectID=2
     // append to the mssql query
