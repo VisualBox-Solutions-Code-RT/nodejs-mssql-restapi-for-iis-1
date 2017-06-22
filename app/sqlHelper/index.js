@@ -8,7 +8,7 @@ const sql = require("mssql");
 
 module.exports = {
 
-  queryDB: (query, callback, error, operation) => {
+  queryDB: (query, callback, error, operation, middleware) => {
 
     //to avoid Global connection if there is any
     sql.close();
@@ -26,7 +26,7 @@ module.exports = {
       let request = new sql.Request();
 
       // query to the database and get the records
-      request.query(query, (err, result) => {
+      request.query(query, (err, response) => {
 
         if (err) {
           error(err);
@@ -35,12 +35,17 @@ module.exports = {
 
         } else {
 
+          //if the resource specifies a middleware, call it before returning json data
+          if(middleware){
+            middleware(response.recordset);
+          }
+
           if (operation === 'read') {
-            callback(operation, result.recordset);
+            callback(operation, response.recordset);
             return;
 
           } else if (operation === 'update' || operation === 'post') {
-            callback(operation, {rowsAffected: result.rowsAffected});
+            callback(operation, {rowsAffected: response.rowsAffected});
             return;
           }
         }
